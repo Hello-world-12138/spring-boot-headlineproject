@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @Date 2025/11/10:16:01
  * @See:
  */
-@SpringBootTest(classes = com.amk.Main.class)
+@SpringBootTest
 public class JwtTest {
     @Autowired
     private JwtHelper jwtHelper;
