@@ -1,6 +1,8 @@
 package com.amk.service;
 
 import com.amk.pojo.Headline;
+import com.amk.pojo.vo.PortalVo;
+import com.amk.utils.Result;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -10,4 +12,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface HeadlineService extends IService<Headline> {
 
+    //首页数据查询
+    Result findNewsPage(PortalVo portalVo);
+
+    //根据id查询头条详情
+    Result showHeadlineDetail(Integer hid);
 }

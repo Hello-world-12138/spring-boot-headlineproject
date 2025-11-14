@@ -1,6 +1,7 @@
 package com.amk.service;
 
 import com.amk.pojo.Type;
+import com.amk.utils.Result;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -10,4 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface TypeService extends IService<Type> {
 
+    //查询所有类别数据
+    Result findAllTypes();
 }
