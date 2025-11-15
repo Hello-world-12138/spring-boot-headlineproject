@@ -3,7 +3,9 @@ package com.amk.controller;
 import com.amk.mapper.UserMapper;
 import com.amk.pojo.User;
 import com.amk.service.UserService;
+import com.amk.utils.JwtHelper;
 import com.amk.utils.Result;
+import com.amk.utils.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin//跨域
 public class UserController {
 
+
     @Autowired
     private UserService userService;
+    @Autowired
+    private JwtHelper jwtHelper;
 
     @PostMapping("login")
     public Result login(@RequestBody User user) {
@@ -43,6 +48,15 @@ public class UserController {
         Result result=userService.regist(user);
         return result;
 
+    }
+
+    @GetMapping("checkLogin")
+    public Result checkLogin(@RequestHeader String token){
+        boolean expiration=jwtHelper.isExpiration(token);
+        if(expiration){
+            return Result.build(null, ResultCodeEnum.NOTLOGIN);
+        }
+        return Result.ok(null);
     }
 
 }

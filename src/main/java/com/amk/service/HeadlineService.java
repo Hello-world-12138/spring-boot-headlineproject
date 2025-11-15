@@ -17,4 +17,19 @@ public interface HeadlineService extends IService<Headline> {
 
     //根据id查询头条详情
     Result showHeadlineDetail(Integer hid);
+
+    /**
+     * 发布头条方法
+     * @param headline
+     * @return
+     */
+    Result publish(Headline headline,String token);
+
+    /**
+     * 修改头条数据
+     * @param headline
+     * @return
+     */
+
+    Result updateData(Headline headline);
 }

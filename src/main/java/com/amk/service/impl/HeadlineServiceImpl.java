@@ -1,6 +1,7 @@
 package com.amk.service.impl;
 
 import com.amk.pojo.vo.PortalVo;
+import com.amk.utils.JwtHelper;
 import com.amk.utils.Result;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +12,7 @@ import com.amk.mapper.HeadlineMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,9 @@ public class HeadlineServiceImpl extends ServiceImpl<HeadlineMapper, Headline>
 
     @Autowired
     private HeadlineMapper headlineMapper;
+
+    @Autowired
+    private JwtHelper jwtHelper;
 
 
 
@@ -83,6 +88,44 @@ public class HeadlineServiceImpl extends ServiceImpl<HeadlineMapper, Headline>
 
         return Result.ok(headlineMap);
 
+    }
+
+    /**
+     * 头条发布方法
+     * 1.补全数据
+     * @param headline
+     * @param token
+     * @return
+     */
+
+    @Override
+    public Result publish(Headline headline,String token) {
+        //token查询用户id
+        int userId =jwtHelper.getUserId(token).intValue();
+        //数据装配
+        headline.setPublisher(userId);
+        headline.setPageViews(0);
+        headline.setCreateTime(new Date());
+        headline.setUpdateTime(new Date());
+
+        headlineMapper.insert(headline);
+        return Result.ok(null);
+    }
+
+    /**
+     * 修改头条数据
+     * 1.hid查询数据的最新version
+     * 2，修改数据的修改时间为当前节点
+     * @param headline
+     * @return
+     */
+    @Override
+    public Result updateData(Headline headline) {
+        Integer version=headlineMapper.selectById(headline.getHid()).getVersion();
+        headline.setVersion(version);//乐观锁
+        headline.setUpdateTime(new Date());
+        headlineMapper.updateById(headline);
+        return Result.ok(null);
     }
 }
 

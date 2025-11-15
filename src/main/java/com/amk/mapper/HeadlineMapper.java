@@ -22,6 +22,8 @@ public interface HeadlineMapper extends BaseMapper<Headline> {
     IPage<Map> selectMyPage(IPage<Map> page, @Param("portalVo") PortalVo portalVo);
 
     Map queryDetailMap(Integer hid);
+
+
 }
 
 
