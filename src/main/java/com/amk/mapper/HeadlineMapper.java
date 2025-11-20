@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +26,15 @@ public interface HeadlineMapper extends BaseMapper<Headline> {
     Map queryDetailMap(Integer hid);
 
 
+    List<Map<String, Object>> selectBrowseHistory(Long userId);
+
+    /*// ======== 新增：用注解方式，强制提交 ========
+    @Update("INSERT INTO browse_history (uid, hid, browse_time) " +
+            "VALUES (#{uid}, #{hid}, NOW()) " +
+            "ON DUPLICATE KEY UPDATE browse_time = NOW()")
+    void upsertBrowseHistory(@Param("uid") Integer uid, @Param("hid") Integer hid);*/
 }
+
 
 
 

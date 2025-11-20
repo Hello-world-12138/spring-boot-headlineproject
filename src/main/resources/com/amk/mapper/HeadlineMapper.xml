@@ -44,4 +44,20 @@
                                                where hid = #{hid}
     </select>
 
+
+    <!-- 查询浏览记录（关键：用 AS 别名确保返回 title） -->
+    <select id="selectBrowseHistory" resultType="map">
+        SELECT
+            h.hid,
+            h.title,
+            h.page_views AS pageViews,
+            TIMESTAMPDIFF(HOUR, bh.browse_time, NOW()) AS pastHours
+        FROM browse_history bh
+                 LEFT JOIN news_headline h ON bh.hid = h.hid
+        WHERE bh.uid = #{userId}
+          AND h.is_deleted = 0
+        ORDER BY bh.browse_time DESC
+            LIMIT 20
+    </select>
+
 </mapper>

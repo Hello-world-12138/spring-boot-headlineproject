@@ -16,7 +16,7 @@ public interface HeadlineService extends IService<Headline> {
     Result findNewsPage(PortalVo portalVo);
 
     //根据id查询头条详情
-    Result showHeadlineDetail(Integer hid);
+    Result showHeadlineDetail(Integer hid,String token);
 
     /**
      * 发布头条方法
@@ -32,4 +32,7 @@ public interface HeadlineService extends IService<Headline> {
      */
 
     Result updateData(Headline headline);
+    // HeadlineService.java
+    Result listMyHeadlines(String token);           // 个人中心 - 我发布的
+    Result listBrowseHistory(String token);          // 浏览记录
 }

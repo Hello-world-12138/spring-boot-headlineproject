@@ -53,4 +53,14 @@ public class HeadlineController {
         headlineService.removeById(hid);
         return Result.ok(null);
     }
+
+    @GetMapping("my")
+    public Result myHeadlines(@RequestHeader("token") String token){
+        return headlineService.listMyHeadlines(token);
+    }
+
+    @GetMapping("browseHistory")
+    public Result browseHistory(@RequestHeader("token") String token){
+        return headlineService.listBrowseHistory(token);
+    }
 }
