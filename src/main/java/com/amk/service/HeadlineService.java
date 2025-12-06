@@ -35,4 +35,9 @@ public interface HeadlineService extends IService<Headline> {
     // HeadlineService.java
     Result listMyHeadlines(String token);           // 个人中心 - 我发布的
     Result listBrowseHistory(String token);          // 浏览记录
+
+    /**
+     * 门户详情需要校验状态
+     */
+    Result showHeadlineDetailForPortal(Integer hid, String token);
 }

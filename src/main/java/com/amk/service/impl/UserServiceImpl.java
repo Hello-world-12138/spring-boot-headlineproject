@@ -50,12 +50,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if(!StringUtils.isEmpty(user.getUserPwd())
             && MD5Util.encrypt(user.getUserPwd()).equals(loginUser.getUserPwd())){
 
+            if (loginUser.getRole() != null && loginUser.getRole() == -1) {
+                return Result.build(null, ResultCodeEnum.USER_BANNED);
+            }
             //登录成功
             //根据用户id生成token
             String token = jwtHelper.createToken(Long.valueOf(loginUser.getUid()));
             //把token封装到result返回
             Map data = new HashMap();
             data.put("token", token);
+            data.put("role", loginUser.getRole());
             return Result.ok(data);
 
         }
@@ -82,6 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         int userId = jwtHelper.getUserId(token).intValue();
         User user = userMapper.selectById(userId);
         user.setUsername("");
+        user.setUserPwd("");
         Map data = new HashMap();
         data.put("loginUser", user);
 
@@ -116,6 +121,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return Result.build(null,ResultCodeEnum.USERNAME_USED);
         }
         user.setUserPwd(MD5Util.encrypt(user.getUserPwd()));
+        user.setRole(0);
         userMapper.insert(user);
 
         return Result.ok(null);

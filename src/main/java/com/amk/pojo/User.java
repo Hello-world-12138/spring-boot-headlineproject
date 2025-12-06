@@ -18,6 +18,8 @@ public class User {
 
     private String nickName;
 
+    private Integer role;
+
     @Version
     private Integer version;
 

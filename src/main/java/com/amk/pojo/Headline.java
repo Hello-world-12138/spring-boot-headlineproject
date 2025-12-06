@@ -25,6 +25,8 @@ public class Headline {
 
     private Integer pageViews;
 
+    private Integer status;
+
     private Date createTime;
 
     private Date updateTime;

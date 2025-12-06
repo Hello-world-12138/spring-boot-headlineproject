@@ -48,7 +48,7 @@ public class PortalController {
         if (hid == null) {
             return Result.build(null, ResultCodeEnum.NOTLOGIN);
         }
-        return headlineService.showHeadlineDetail(hid, token);
+        return headlineService.showHeadlineDetailForPortal(hid, token);
     }
 
 

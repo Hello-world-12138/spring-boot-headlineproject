@@ -28,6 +28,16 @@ public interface HeadlineMapper extends BaseMapper<Headline> {
 
     List<Map<String, Object>> selectBrowseHistory(Long userId);
 
+    IPage<Map> selectAdminPage(IPage<Map> page, @Param("status") Integer status);
+
+    int approveHeadline(@Param("hid") Integer hid);
+
+    List<Map<String, Object>> selectTopHeadlines();
+
+    List<Map<String, Object>> selectHeadlineTrend(@Param("days") Integer days);
+
+    void batchUpdateStatusByPublisher(@Param("publisher") Integer publisher, @Param("status") Integer status);
+
     /*// ======== 新增：用注解方式，强制提交 ========
     @Update("INSERT INTO browse_history (uid, hid, browse_time) " +
             "VALUES (#{uid}, #{hid}, NOW()) " +

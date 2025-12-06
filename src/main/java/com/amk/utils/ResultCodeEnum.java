@@ -11,6 +11,9 @@ public enum ResultCodeEnum {
     PASSWORD_ERROR(503,"passwordError"),
     NOTLOGIN(504,"notLogin"),
     USERNAME_USED(505,"userNameUsed"),
+    USER_BANNED(506,"userBanned"),
+    HEADLINE_REVIEW(507,"headlineReview"),
+    NO_PERMISSION(403,"noPermission"),
     SYSTEM_ERROR(9999, "系统异常，请稍后重试");
 
     private Integer code;
