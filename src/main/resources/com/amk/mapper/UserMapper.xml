@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -20,16 +20,16 @@
 
     <!-- 管理端分页查询用户列表 -->
     <select id="selectAdminUserPage" resultType="map">
-    select
-        uid,
-        username,
-        nick_name   as nickName,
-        CAST(role AS SIGNED) AS role,
-        null as createTime
-    from news_user
-    where (is_deleted = 0 or is_deleted is null)
-    order by uid desc
-</select>
+        select
+            uid,
+            username,
+            nick_name   as nickName,
+            CAST(role AS SIGNED) AS role,
+            create_time as createTime
+        from news_user
+        where (is_deleted = 0 or is_deleted is null)
+        order by uid desc
+    </select>
 
 
     <select id="countTodayUsers" resultType="long">
@@ -38,11 +38,21 @@
         where (is_deleted = 0 or is_deleted is null)
     </select>
 
+    <select id="countUsersWithinDays" resultType="long">
+        select count(*)
+        from news_user
+        where (is_deleted = 0 or is_deleted is null)
+          and create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+    </select>
+
     <select id="selectUserTrend" resultType="map">
         select
-            CURDATE() as dt,
+            DATE(create_time) as dt,
             count(*) as cnt
         from news_user
         where (is_deleted = 0 or is_deleted is null)
+          and create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+        group by DATE(create_time)
+        order by dt
     </select>
 </mapper>

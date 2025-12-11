@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -24,10 +24,10 @@
     </sql>
 
 
-    <!-- 自定义分页查询的方法 -->
+    <!-- 鑷畾涔夊垎椤垫煡璇㈢殑鏂规硶 -->
     <select id="selectMyPage" resultType="java.util.Map">
         select h.hid,h.title,h.type,h.page_views pageViews,TIMESTAMPDIFF(HOUR,h.create_time,NOW()) pastHours,
-        h.publisher
+        h.publisher,u.role as publisherRole
         from news_headline h
         left join news_user u on h.publisher = u.uid
         where h.is_deleted=0 and h.status=1 and (u.role is null or u.role != -1)
@@ -43,14 +43,14 @@
         select h.hid,h.title,h.article,h.type, h.version ,t.tname typeName ,h.page_views pageViews
              ,TIMESTAMPDIFF(HOUR,h.create_time,NOW()) pastHours,h.publisher,h.status
                  ,u.nick_name author,u.role as publisherRole
-            from news_headline h
-                left join news_type t on h.type = t.tid
-                left join news_user u  on h.publisher = u.uid
-            where h.hid = #{hid} and h.is_deleted = 0
+        from news_headline h
+                 left join news_type t on h.type = t.tid
+                 left join news_user u  on h.publisher = u.uid
+        where h.hid = #{hid} and h.is_deleted = 0
     </select>
 
 
-    <!-- 查询浏览记录（关键：用 AS 别名确保返回 title） -->
+    <!-- 鏌ヨ娴忚璁板綍锛堝叧閿細鐢?AS 鍒悕纭繚杩斿洖 title锛?-->
     <select id="selectBrowseHistory" resultType="map">
         SELECT
             h.hid,
@@ -68,7 +68,7 @@
             LIMIT 20
     </select>
 
-    <!-- 管理端分页查询头条列表 -->
+    <!-- 绠＄悊绔垎椤垫煡璇㈠ご鏉″垪琛?-->
     <select id="selectAdminPage" resultType="map">
         select
             h.hid,
@@ -112,9 +112,18 @@
             count(*) as cnt
         from news_headline
         where is_deleted = 0
+          and status = 1
           and create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
         group by DATE(create_time)
         order by dt
+    </select>
+
+    <select id="countHeadlinesWithinDays" resultType="long">
+        select count(*)
+        from news_headline
+        where is_deleted = 0
+          and status = 1
+          and create_time >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
     </select>
 
     <update id="batchUpdateStatusByPublisher">

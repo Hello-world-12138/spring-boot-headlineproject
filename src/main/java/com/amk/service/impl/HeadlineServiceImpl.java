@@ -82,7 +82,16 @@ public class HeadlineServiceImpl extends ServiceImpl<HeadlineMapper, Headline>
         int userId = jwtHelper.getUserId(token).intValue();
         headline.setPublisher(userId);
         headline.setPageViews(0);
-        headline.setStatus(0);
+        // 管理员发布直接已发布，普通用户为待审核
+        Integer status = 0;
+        try {
+            User user = userMapper.selectById(userId);
+            if (user != null && user.getRole() != null && user.getRole() == 1) {
+                status = 1;
+            }
+        } catch (Exception ignored) {
+        }
+        headline.setStatus(status);
         headline.setIsDeleted(0);
         headline.setCreateTime(new Date());
         headline.setUpdateTime(new Date());

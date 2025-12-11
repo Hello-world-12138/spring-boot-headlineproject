@@ -1,4 +1,4 @@
-package com.amk.mapper;
+﻿package com.amk.mapper;
 
 import com.amk.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
 * @author 阿明楷
-* @description 针对表【news_user】的数据库操作Mapper
+* @description 针对表【news_user】的数据操作Mapper
 * @createDate 2025-11-10 15:37:44
 * @Entity com.amk.pojo.User
 */
@@ -25,6 +25,8 @@ public interface UserMapper extends BaseMapper<User> {
     IPage<Map> selectAdminUserPage(Page<Map> page);
 
     Long countTodayUsers();
+
+    Long countUsersWithinDays(@Param("days") Integer days);
 
     List<Map<String, Object>> selectUserTrend(@Param("days") Integer days);
 }

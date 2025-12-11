@@ -36,8 +36,11 @@ public interface HeadlineMapper extends BaseMapper<Headline> {
 
     List<Map<String, Object>> selectHeadlineTrend(@Param("days") Integer days);
 
+    Long countHeadlinesWithinDays(@Param("days") Integer days);
+
     void batchUpdateStatusByPublisher(@Param("publisher") Integer publisher, @Param("status") Integer status);
 
+    
     /*// ======== 新增：用注解方式，强制提交 ========
     @Update("INSERT INTO browse_history (uid, hid, browse_time) " +
             "VALUES (#{uid}, #{hid}, NOW()) " +
