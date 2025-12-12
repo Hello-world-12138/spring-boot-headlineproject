@@ -235,19 +235,27 @@ public class AdminController {
 
         Map<String, Long> userMap = new HashMap<>();
         for (Map<String, Object> m : userTrend) {
-            userMap.put(String.valueOf(m.get("dt")), ((Number) m.get("cnt")).longValue());
+            Object dt = m.get("dt");
+            Object cnt = m.get("cnt");
+            userMap.put(String.valueOf(dt), cnt == null ? 0L : ((Number) cnt).longValue());
         }
         Map<String, Long> headlineMap = new HashMap<>();
         for (Map<String, Object> m : headlineTrend) {
-            headlineMap.put(String.valueOf(m.get("dt")), ((Number) m.get("cnt")).longValue());
+            Object dt = m.get("dt");
+            Object cnt = m.get("cnt");
+            headlineMap.put(String.valueOf(dt), cnt == null ? 0L : ((Number) cnt).longValue());
         }
         Map<String, Long> commentMap = new HashMap<>();
         for (Map<String, Object> m : commentTrend) {
-            commentMap.put(String.valueOf(m.get("dt")), ((Number) m.get("cnt")).longValue());
+            Object dt = m.get("dt");
+            Object cnt = m.get("cnt");
+            commentMap.put(String.valueOf(dt), cnt == null ? 0L : ((Number) cnt).longValue());
         }
         Map<String, Long> bannedMap = new HashMap<>();
         for (Map<String, Object> m : bannedTrend) {
-            bannedMap.put(String.valueOf(m.get("dt")), ((Number) m.get("cnt")).longValue());
+            Object dt = m.get("dt");
+            Object cnt = m.get("cnt");
+            bannedMap.put(String.valueOf(dt), cnt == null ? 0L : ((Number) cnt).longValue());
         }
 
         for (int i = days - 1; i >= 0; i--) {

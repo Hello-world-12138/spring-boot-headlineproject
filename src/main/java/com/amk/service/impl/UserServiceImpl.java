@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -122,6 +123,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
         user.setUserPwd(MD5Util.encrypt(user.getUserPwd()));
         user.setRole(0);
+        user.setCreateTime(new Date());
         userMapper.insert(user);
 
         return Result.ok(null);
@@ -129,7 +131,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
 }
-
-
 
 
